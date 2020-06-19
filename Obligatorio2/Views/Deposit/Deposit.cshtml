@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PortLog</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+<body>
+    <header class="container-fluid bg-dark">
+        <section class="row">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark col-10">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <aside class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="Index">Productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Clients">Clients</a>                       
+                        </li>
+                    </ul>
+                </aside>
+            </nav>
+            <article class="col-1">
+                <a class="btn btn-primary" href="Logout">Salir</a>
+            </article>
+        </section>
+    </header>
+    <main class="container">
+        <section id="productsListSection">
+            <table class="table">
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Unidades</th>
+                </tr>
+                @foreach (var p in ViewBag.productsList)
+                {
+                    <tr>
+                        <td>@p.Id</td>
+                        <td>@p.Name</td>
+                        <td>@p.Ammount</td>
+                    </tr>
+                }
+            </table>
+        </section>
+    </main>
+</body>
+</html>

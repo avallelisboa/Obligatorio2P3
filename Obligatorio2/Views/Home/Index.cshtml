@@ -1,31 +1,66 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PortLog</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+<body>
+    <main class="container">
+        <section class="row">
+            <form class="col-lg-7" method="post" action="../Home/Register">
+                <h2>Registro</h2>
+                <label for="registerId">Cédula de Indentidad</label><input type="number" id="registerId" name="id" />
+                <label for="registerPassword">Contraseña</label><input type="password" id="registerPassword" name="password" />
+                <label for="role">Rol</label>
+                <select id="role" name="role">
+                    <option value="admin">Admin</option>
+                    <option value="deposito">Deposito</option>
+                </select>
+                <input type="submit" value="Registrar" />
+            </form>
+        </section>
+        
+        @if (Session["RegisterError"] != null)
+        {<section class="row">
+            <article class="col-lg-6 bg-danger">
+                <p>@Convert.ToString(Session["RegisterError"])</p>
+            </article>
+        </section>
+        }       
+        <section class="row">
+            <form class="col-lg-7" method="post" action="../Home/Login">
+                <h2>Iniciar sesión</h2>
+                <label for="loginId">Cédula de Indentidad</label><input type="number" id="loginId" name="id" />
+                <label for="loginPassword">Contraseña</label><input type="password" id="loginPassword" name="password" />
+                <input type="submit" value="Iniciar Sesión" />
+            </form>
+        </section>
+        
+        @if (Session["LoginError"] != null)
+        {
+            <section class="row">
+                <article class="col-7 bg-danger">
+                    <p>@Convert.ToString(Session["LoginError"])</p>
+                </article>
+            </section>
+        }
+        
+        <section class="row">
+            <a class="btn btn-dark" href="../Home/ExportDB">Exportar Base de Datos</a>
+            <a class="btn btn-dark" href="../Home/ImportDB">Importar a Base de Datos</a>
+        </section>
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+        @if(ViewBag.DataMessage != null)
+        {
+            <section class="row bg-info">
+                <p>@ViewBag.DataMessage</p>
+            </section>
+        }
+    </main>
+</body>
+</html>

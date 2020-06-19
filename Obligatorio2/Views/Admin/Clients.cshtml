@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PortLog</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+<body>
+    <header class="container-fluid bg-dark">
+        <section class="row">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark col-10">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <aside class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="Index">Productos</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="Clients">Clients</a>
+                        </li>
+                    </ul>
+                </aside>
+            </nav>
+            <article class="col-1">
+                <a class="nav-link" href="Logout">Salir</a>
+            </article>
+        </section>
+    </header>
+    <main class="container">
+        <section id="clientssListSection">
+            <table class="table">
+                <tr>
+                    <th>Rut</th>
+                    <th>Nombre de Cliente</th>
+                    <th>Fecha de Registro</th>
+                </tr>
+                @foreach (var c in ViewBag.clientsList)
+                {
+                    <tr>
+                        <td>@c.Tin</td>
+                        <td>@c.ClientName</td>
+                        <td>@c.RegisterDate</td>
+                    </tr>
+                }
+            </table>
+        </section>
+        <section>
+            <h2>Obtener previsión de ganancia</h2>
+            <form method="post" action="GetExpectedIncome">
+                
+                <label for="tin">Rut del cliente</label><input type="number" id="tin" name="tin" required />
+                
+                <input type="submit" value="Obtener" />
+            </form>
+            @if (Session["expectedIncome"] != null)
+            {
+                <article class="bg-info">
+                    <p>La previsión de ganancia para el cliente ingresado es de: @Convert.ToInt32(Session["expectedIncome"])</p>
+                </article>
+            }
+        </section>
+    </main>
+    <footer>
+        <p></p>
+    </footer>
+</body>
+</html>

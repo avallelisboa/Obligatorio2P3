@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PortLog</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+<body>
+    <header class="container-fluid bg-dark">
+        <section class="row">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark col-10">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <aside class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="Index">Productos <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="Clients">Clients</a>
+                        </li>
+                    </ul>
+                </aside>
+            </nav>
+            <article class="col-1">
+                <a class="btn btn-primary" href="Logout">Salir</a>
+            </article>
+        </section>
+    </header>
+    <main class="container">
+        <section id="clientsListSection">
+            <table class="table">
+                <tr>
+                    <th>Tin</th>
+                    <th>Nombre de Cliente</th>
+                    <th>Fecha de Registro</th>
+                </tr>
+                @foreach (var c in ViewBag.clientsList)
+                {
+                    <tr>
+                        <td>@c.Tin</td>
+                        <td>@c.ClientName</td>
+                        <td>@c.RegisterDate</td>
+                    </tr>
+                }
+            </table>
+        </section>
+        <section>
+            <h2>Agregar Importación</h2>
+            <form method="post" action="AddImport">
+                <label for="productId">Id del producto</label><input type="text" id="productId" name="productId" required />
+                <label for="tin">Rut del cliente</label><input type="number" id="tin" name="tin" required />
+                <label for="priceByUnit">Precio por unidad</label><input type="number" id="priceByUnit" name="priceByUnit" required />
+                <label for="ammount">Cantidad</label><input type="number" id="ammount" name="ammount" required />
+                <label for="entryDate">Fecha de Ingreso</label><input type="date" id="entryDate" name="entryDate" required />
+                <label for="departureDate">Fecha de Salida</label><input type="date" id="departureDate" name="departureDate" required />
+                <label for="isStored">¿Está almacenado?</label><select name="isStored"><option value="true">Sí</option><option value="false">No</option></select>
+                <input type="submit" value="Agregar Importación" />
+            </form>
+            @if (ViewBag.ImportAdded == true)
+            {
+                <article class="bg-success">
+                    <p>La importación fue agregada correctamente</p>
+                </article>
+            }
+            @if (ViewBag.ImportAdded == false)
+            {
+                <article class="bg-danger">
+                    <p>La importación no ha podido ser agregada</p>
+                </article>
+            }
+        </section>
+    </main>
+    <footer>
+        <p></p>
+    </footer>
+</body>
+</html>
