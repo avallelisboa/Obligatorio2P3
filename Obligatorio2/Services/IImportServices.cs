@@ -30,7 +30,7 @@ namespace Obligatorio2.Services
         [OperationContract]
         IEnumerable<ImportDTO> FindImportByClientTin(long tin);
         [OperationContract]
-        IEnumerable<ImportDTO> FinImportByDate();
+        IEnumerable<ImportDTO> FindImportByDate();
     }
 
 

@@ -26,6 +26,62 @@ namespace Obligatorio2.Services
             else return false;
         }
 
+        public IEnumerable<ImportDTO> FindImportByClientTin(long tin)
+        {
+            IRepository<Import> repository = new ImportRepository();
+            var imports = repository.FindAll().Where(i => i.ImporterClient.Tin == tin);
+            List<ImportDTO> importDTOs = new List<ImportDTO>();
+
+            foreach(var i in imports)
+            {
+                importDTOs.Add(new ImportDTO(i.Id, i.PriceByUnit, i.Ammount, i.EntryDate, i.DepartureDate, i.ImportedProduct, i.ImporterClient, i.IsStored));
+            }
+
+            return importDTOs;
+        }
+
+        public IEnumerable<ImportDTO> FindImportsById(string productId)
+        {
+            IRepository<Import> repository = new ImportRepository();
+            var imports = repository.FindAll().Where(i => i.ImportedProduct.Id == productId);
+            List<ImportDTO> importDTOs = new List<ImportDTO>();
+
+            foreach (var i in imports)
+            {
+                importDTOs.Add(new ImportDTO(i.Id, i.PriceByUnit, i.Ammount, i.EntryDate, i.DepartureDate, i.ImportedProduct, i.ImporterClient, i.IsStored));
+            }
+
+            return importDTOs;
+        }
+
+        public IEnumerable<ImportDTO> FindImportsByName(string productName)
+        {
+            IRepository<Import> repository = new ImportRepository();
+            var imports = repository.FindAll().Where(i => i.ImportedProduct.Name == productName);
+            List<ImportDTO> importDTOs = new List<ImportDTO>();
+
+            foreach (var i in imports)
+            {
+                importDTOs.Add(new ImportDTO(i.Id, i.PriceByUnit, i.Ammount, i.EntryDate, i.DepartureDate, i.ImportedProduct, i.ImporterClient, i.IsStored));
+            }
+
+            return importDTOs;
+        }
+
+        public IEnumerable<ImportDTO> FindImportByDate()
+        {
+            IRepository<Import> repository = new ImportRepository();
+            var imports = repository.FindAll().Where(i => DateTime.Compare(i.DepartureDate,DateTime.Today) > 0);
+            List<ImportDTO> importDTOs = new List<ImportDTO>();
+
+            foreach (var i in imports)
+            {
+                importDTOs.Add(new ImportDTO(i.Id, i.PriceByUnit, i.Ammount, i.EntryDate, i.DepartureDate, i.ImportedProduct, i.ImporterClient, i.IsStored));
+            }
+
+            return importDTOs;
+        }
+
         public IEnumerable<ImportDTO> GetImports()
         {
             IRepository<Import> repository = new ImportRepository();
