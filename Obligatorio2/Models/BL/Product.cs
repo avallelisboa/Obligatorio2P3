@@ -13,9 +13,11 @@ namespace Obligatorio2.Models.BL
         [Key]
         public string Id { get; private set; }
         [StringLength(50)]
-        public string Name { get; private set; }
-        public int Weight { get; private set; }
-        public Client Importer { get; private set; }
+        public string Name { get; set; }
+        public int Weight { get; set; }
+        public Client Importer { get; set; }
+        [ForeignKey("Importer")]
+        public long Tin { get; set; }
         public uint Ammount { get; set; }
 
         public Product(string id) { Id = id;}

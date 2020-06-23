@@ -12,15 +12,15 @@ namespace Obligatorio2.Models.BL
     {
         [Required]
         [StringLength(50)]
-        public string Name { get; private set; }
-        [Key]
-        public long Tin { get; private set; }
+        public string Name { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public long Tin { get; set; }
         public uint Seniority { get; set; }
         public uint Discount { get; set; }
         [Required]
         public DateTime RegisterDate {get; set;}
-        public IEnumerable<Product> Products { get; private set; }
-        public IEnumerable<Import> Imports { get; private set; }
+        public IEnumerable<Product> Products { get; set; }
+        public IEnumerable<Import> Imports { get; set; }
 
         public Client(string name, long tin, DateTime registerDate)
         { Name = name; Tin = tin; RegisterDate = registerDate; }

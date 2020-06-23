@@ -75,7 +75,13 @@ namespace Obligatorio2.Models.BL
                 {
                     string[] values = line.Split('#');
 
-                    Client client = new Client(Convert.ToString(values[0]), Convert.ToInt64(values[1]), Convert.ToUInt32(values[2]), Convert.ToUInt32(values[3]), Convert.ToDateTime(values[4]));
+                    string name = Convert.ToString(values[0]);
+                    long tin = Convert.ToInt64(values[1]);
+                    uint discount = Convert.ToUInt32(values[2]);
+                    uint seniority = Convert.ToUInt32(values[3]);
+                    DateTime registerDate = Convert.ToDateTime(values[4]);
+
+                    Client client = new Client(name,tin,discount,seniority,registerDate);
                     clientList.Add(client);
 
                     line = file.ReadLine();
@@ -85,6 +91,9 @@ namespace Obligatorio2.Models.BL
 
                 foreach(var c in clientList)
                 {
+                    Client client = clientRepository.FindById(c.Tin);
+                    if (client != null) continue;
+
                     clientRepository.Add(c);
                 }
 
@@ -116,8 +125,13 @@ namespace Obligatorio2.Models.BL
 
                     Product product = new Product(values[0]);
                     Client client = new Client(Convert.ToInt64(values[1]));
+                    uint ammount = Convert.ToUInt32(values[2]);
+                    int priceByUnit = Convert.ToInt32(values[3]);
+                    DateTime entryDate = Convert.ToDateTime(values[4]);
+                    DateTime departureDate = Convert.ToDateTime(values[5]);
+                    bool isStored = Convert.ToBoolean(values[6]);
 
-                    Import import = new Import(product, client, Convert.ToUInt32(values[2]), Convert.ToInt32(values[3]), Convert.ToDateTime(values[4]), Convert.ToDateTime(values[5]),Convert.ToBoolean(values[6]));
+                    Import import = new Import(product, client, ammount, priceByUnit,entryDate,departureDate,isStored);
                     importList.Add(import);
 
                     line = file.ReadLine();
@@ -127,6 +141,9 @@ namespace Obligatorio2.Models.BL
 
                 foreach (var i in importList)
                 {
+                    Import import = importRepository.FindById(i.Id);
+                    if (import != null) continue;
+
                     importRepository.Add(i);
                 }
 
@@ -156,8 +173,11 @@ namespace Obligatorio2.Models.BL
                     string[] values = line.Split('#');
 
                     Client client = new Client(Convert.ToInt64(values[3]));
+                    string id = values[0];
+                    string name = values[1];
+                    int weight = Convert.ToInt32(values[2]);
 
-                    Product product = new Product(values[0], values[1], Convert.ToInt32(values[2]), client);
+                    Product product = new Product(id,name,weight, client);
                     productList.Add(product);
 
                     line = file.ReadLine();
@@ -167,6 +187,9 @@ namespace Obligatorio2.Models.BL
 
                 foreach (var p in productList)
                 {
+                    Product product = productRepository.FindById(p.Id);
+                    if (product != null) continue;
+
                     productRepository.Add(p);
                 }
 
@@ -214,6 +237,9 @@ namespace Obligatorio2.Models.BL
 
                 foreach (var p in userList)
                 {
+                    User user = userRepository.FindById(p.Id);
+                    if (user != null) continue;
+
                     userRepository.Add(p);
                 }
 
@@ -263,7 +289,7 @@ namespace Obligatorio2.Models.BL
 
                 foreach (var i in imports)
                 {
-                    file.WriteLine($"{i.ImportedProduct.Id}#{i.ImportingClient.Tin}#{i.Ammount}#{i.PriceByUnit}#{i.EntryDate}#{i.DepartureDate}#{i.IsStored}#");
+                    file.WriteLine($"{i.ImportedProduct.Id}#{i.ImporterClient.Tin}#{i.Ammount}#{i.PriceByUnit}#{i.EntryDate}#{i.DepartureDate}#{i.IsStored}#");
                 }
 
                 file.Close();

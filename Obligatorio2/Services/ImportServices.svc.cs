@@ -25,22 +25,28 @@ namespace Obligatorio2.Services
             if (repository.Add(import)) return true;
             else return false;
         }
-    }
 
-    [DataContract]
-    public class ClientDTO
-    {
-        public ClientDTO(long tin, string clientName, uint discount,
-            uint seniority, DateTime registerDate)
+        public IEnumerable<ImportDTO> GetImports()
         {
-            Tin = tin;ClientName = clientName; RegisterDate = registerDate;
+            IRepository<Import> repository = new ImportRepository();
+            var imports = repository.FindAll();
+            List<ImportDTO> importsDTO = new List<ImportDTO>();
+
+            foreach(var i in imports)
+            {
+                importsDTO.Add(new ImportDTO(i.Id,i.PriceByUnit,i.Ammount,i.EntryDate,i.DepartureDate,i.ImportedProduct,i.ImporterClient,i.IsStored));
+            }
+
+            return importsDTO;
         }
 
-        [DataMember]
-        public long Tin { get; set; }
-        [DataMember]
-        public string ClientName { get; set; }
-        [DataMember]
-        public DateTime RegisterDate { get; set; }
+        public bool TakeImport(int Id)
+        {
+            IRepository<Import> repository = new ImportRepository();
+            Import import = repository.FindById(Id);
+            import.IsStored = false;
+
+            return repository.Update(import);
+        }
     }
 }

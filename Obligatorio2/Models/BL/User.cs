@@ -70,5 +70,12 @@ namespace Obligatorio2.Models.BL
             return result;
         }
 
+        public Tuple<bool,string> SetPassword(string password)
+        {
+            Password = password;
+            var result = this.isPasswordValid();
+            return result;
+        }
+
     }
 }
