@@ -32,7 +32,7 @@ namespace Obligatorio2.Models.Repositories
             }
         }
 
-        public IEnumerable<Client> FindAll()
+        public List<Client> FindAll()
         {
             try
             {

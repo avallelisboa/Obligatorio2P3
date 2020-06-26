@@ -36,7 +36,7 @@ namespace Obligatorio2.Models.Repositories
             }
         }
 
-        public IEnumerable<User> FindAll()
+        public List<User> FindAll()
         {
             try
             {
@@ -53,13 +53,12 @@ namespace Obligatorio2.Models.Repositories
         {
             try
             {
-                int _id = Convert.ToInt32(id);
-                var user = _dbContext.Users.Find(id);
+                User user = _dbContext.Users.Find(id);
                 return user;
             }
             catch (Exception err)
             {
-                return null;
+                throw err;
             }
         }
 

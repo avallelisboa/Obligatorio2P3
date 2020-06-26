@@ -35,8 +35,7 @@ namespace Obligatorio2.Models.BL
         }
         public static bool MakeTables()
         {
-            return makeClientsTable() && makeUsersTable()
-                 && makeProductsTable() && makeImportsTable();
+            return makeUsersTable() && makeClientsTable() && makeProductsTable() && makeImportsTable();
         }
 
         public static bool MakeFiles()
@@ -77,8 +76,8 @@ namespace Obligatorio2.Models.BL
 
                     string name = Convert.ToString(values[0]);
                     long tin = Convert.ToInt64(values[1]);
-                    uint discount = Convert.ToUInt32(values[2]);
-                    uint seniority = Convert.ToUInt32(values[3]);
+                    int discount = Convert.ToInt32(values[2]);
+                    int seniority = Convert.ToInt32(values[3]);
                     DateTime registerDate = Convert.ToDateTime(values[4]);
 
                     Client client = new Client(name,tin,discount,seniority,registerDate);
@@ -117,41 +116,51 @@ namespace Obligatorio2.Models.BL
                 StreamReader file = new StreamReader(route);
                 string line = file.ReadLine();
 
-                List<Import> importList = new List<Import>();
+                List<Import> importsToAdd = new List<Import>();
+
+                IRepository<Import> importRepository = new ImportRepository();
+                List<Import> imports = importRepository.FindAll();
 
                 while (line != null)
                 {
                     string[] values = line.Split('#');
 
-                    Product product = new Product(values[0]);
-                    Client client = new Client(Convert.ToInt64(values[1]));
-                    uint ammount = Convert.ToUInt32(values[2]);
-                    int priceByUnit = Convert.ToInt32(values[3]);
-                    DateTime entryDate = Convert.ToDateTime(values[4]);
-                    DateTime departureDate = Convert.ToDateTime(values[5]);
-                    bool isStored = Convert.ToBoolean(values[6]);
+                    string productId = values[0];
+                    int ammount = Convert.ToInt32(values[1]);
+                    int priceByUnit = Convert.ToInt32(values[2]);
+                    DateTime entryDate = Convert.ToDateTime(values[3]);
+                    DateTime departureDate = Convert.ToDateTime(values[4]);
+                    bool isStored = Convert.ToBoolean(values[5]);
 
-                    Import import = new Import(product, client, ammount, priceByUnit,entryDate,departureDate,isStored);
-                    importList.Add(import);
+                    Import import = new Import(productId,ammount, priceByUnit, entryDate, departureDate, isStored);
+
+                    bool isSaved = false;
+                    if (imports != null)
+                    {
+                        foreach (Import i in imports)
+                        {
+                            if ((i.ProductId == import.ProductId)
+                                && (i.PriceByUnit == import.PriceByUnit) && (i.Ammount == import.Ammount)
+                                && (i.DepartureDate == import.DepartureDate)
+                                && (i.EntryDate == import.EntryDate))
+                            {
+                                isSaved = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!isSaved) importsToAdd.Add(import);
 
                     line = file.ReadLine();
                 }
 
-                IRepository<Import> importRepository = new ImportRepository();
-
-                foreach (var i in importList)
-                {
-                    Import import = importRepository.FindById(i.Id);
-                    if (import != null) continue;
-
-                    importRepository.Add(i);
-                }
+                importsToAdd.ForEach(i => importRepository.Add(i));
 
                 return true;
             }
             catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
         private static bool makeProductsTable()
@@ -172,12 +181,12 @@ namespace Obligatorio2.Models.BL
                 {
                     string[] values = line.Split('#');
 
-                    Client client = new Client(Convert.ToInt64(values[3]));
+                    long tin = Convert.ToInt64(values[3]);
                     string id = values[0];
                     string name = values[1];
                     int weight = Convert.ToInt32(values[2]);
 
-                    Product product = new Product(id,name,weight, client);
+                    Product product = new Product(id,name,weight,tin);
                     productList.Add(product);
 
                     line = file.ReadLine();
@@ -187,7 +196,7 @@ namespace Obligatorio2.Models.BL
 
                 foreach (var p in productList)
                 {
-                    Product product = productRepository.FindById(p.Id);
+                    Product product = productRepository.FindById(p.ProductId);
                     if (product != null) continue;
 
                     productRepository.Add(p);
@@ -289,7 +298,7 @@ namespace Obligatorio2.Models.BL
 
                 foreach (var i in imports)
                 {
-                    file.WriteLine($"{i.ImportedProduct.Id}#{i.ImporterClient.Tin}#{i.Ammount}#{i.PriceByUnit}#{i.EntryDate}#{i.DepartureDate}#{i.IsStored}#");
+                    file.WriteLine($"{i.ImportedProduct.ProductId}#{i.Ammount}#{i.PriceByUnit}#{i.EntryDate}#{i.DepartureDate}#{i.IsStored}#");
                 }
 
                 file.Close();
@@ -314,7 +323,7 @@ namespace Obligatorio2.Models.BL
 
                 foreach (var p in products)
                 {
-                    file.WriteLine($"{p.Id}#{p.Name}#{p.Weight}#{p.Importer.Tin}#");
+                    file.WriteLine($"{p.ProductId}#{p.Name}#{p.Weight}#{p.Importer.Tin}#");
                 }
 
                 file.Close();

@@ -31,14 +31,14 @@ namespace Obligatorio2.Models.Repositories
             
         }
 
-        public IEnumerable<Product> FindAll()
+        public List<Product> FindAll()
         {
             try
             {
                 var products = _dbContext.Products.ToList();
 
                 products.ForEach(p => {
-                    p.Ammount = Convert.ToUInt32(_dbContext.Imports.Where(i=>p.Id == i.ImportedProduct.Id).Sum(i=>i.Ammount));
+                    p.Ammount = Convert.ToInt32(_dbContext.Imports.Where(i=>p.ProductId == i.ProductId).Sum(i=>i.Ammount));
                 });
 
                 _dbContext.SaveChanges();
@@ -47,7 +47,7 @@ namespace Obligatorio2.Models.Repositories
             }
             catch (Exception err)
             {
-                throw null;
+                throw err;
             }
         }
 
@@ -55,8 +55,8 @@ namespace Obligatorio2.Models.Repositories
         {
             try
             {
-                var product = _dbContext.Products.Find(id);
-                product.Ammount = Convert.ToUInt32(_dbContext.Imports.Where(i => i.ImportedProduct == product).Sum(i => i.Ammount));
+                Product product = _dbContext.Products.Find(id);
+                product.Ammount = Convert.ToInt32(_dbContext.Imports.Where(i => i.ProductId == product.ProductId).Sum(i => i.Ammount));
                 return product;
             }
             catch (Exception err)
@@ -69,7 +69,7 @@ namespace Obligatorio2.Models.Repositories
         {
             try
             {
-                var product = _dbContext.Products.Find(id);
+                Product product = _dbContext.Products.Find(id);
                 _dbContext.Products.Remove(product);
 
                 _dbContext.SaveChanges();
@@ -88,7 +88,7 @@ namespace Obligatorio2.Models.Repositories
 
             try
             {
-                var product = _dbContext.Products.Find(instance.Id);
+                var product = _dbContext.Products.Find(instance.ProductId);
 
                 product.Importer = instance.Importer;
                 product.Weight = instance.Weight;

@@ -161,9 +161,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202006220313185_initial-migration.cs" />
-    <Compile Include="Migrations\202006220313185_initial-migration.designer.cs">
-      <DependentUpon>202006220313185_initial-migration.cs</DependentUpon>
+    <Compile Include="Migrations\202006260043517_InitialCreate.cs" />
+    <Compile Include="Migrations\202006260043517_InitialCreate.designer.cs">
+      <DependentUpon>202006260043517_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006260044398_create-tables.cs" />
+    <Compile Include="Migrations\202006260044398_create-tables.designer.cs">
+      <DependentUpon>202006260044398_create-tables.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BL\Admin.cs" />
@@ -385,8 +389,11 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202006220313185_initial-migration.resx">
-      <DependentUpon>202006220313185_initial-migration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202006260043517_InitialCreate.resx">
+      <DependentUpon>202006260043517_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006260044398_create-tables.resx">
+      <DependentUpon>202006260044398_create-tables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

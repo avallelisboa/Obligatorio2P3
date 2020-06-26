@@ -34,7 +34,7 @@ namespace Obligatorio2.Controllers
             else return Redirect("../Home/Index");
         }
         [HttpPost]
-        public ActionResult AddImport(string productId, long tin, int priceByUnit, uint ammount, DateTime entryDate, DateTime departureDate, bool isStored)
+        public ActionResult AddImport(string productId, long tin, int priceByUnit, int ammount, DateTime entryDate, DateTime departureDate, bool isStored)
         {
             ImportServices proxy = new ImportServices();
             if (proxy.AddImport(productId, tin, priceByUnit, ammount, isStored, entryDate, departureDate))

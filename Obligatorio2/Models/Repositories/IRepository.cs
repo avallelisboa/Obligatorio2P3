@@ -12,6 +12,6 @@ namespace Obligatorio2.Models.Repositories
         bool Remove(object id);
         bool Update(T instance);
         T FindById(object id);
-        IEnumerable<T> FindAll();
+        List<T> FindAll();
     }
 }

@@ -26,11 +26,11 @@ namespace Obligatorio2.Models.Repositories
             }
             catch (Exception err)
             {
-                return false;
+                throw err;
             }
         }
 
-        public IEnumerable<Import> FindAll()
+        public List<Import> FindAll()
         {
             try
             {
@@ -39,16 +39,19 @@ namespace Obligatorio2.Models.Repositories
             }
             catch (Exception err)
             {
-                return null;
+                throw err;
             }
         }
 
-        public IEnumerable<Import> FindByClientId(object id)
+        public List<Import> FindByClientId(object id)
         {
             try
             {
                 long _id = Convert.ToInt64(id);
-                var imports = db.Imports.Where(i => i.ImporterClient.Tin == _id).ToList();
+
+                var imports = db.Imports.Where(i =>
+                    db.Products.Any(p => p.ProductId == i.ProductId && db.Clients.Any(c => c.Tin == p.ClientTin)))
+                    .ToList();
 
                 return imports;
             }
@@ -102,7 +105,6 @@ namespace Obligatorio2.Models.Repositories
                 import.EntryDate = instance.EntryDate;
                 import.IsStored = instance.IsStored;
                 import.ImportedProduct = instance.ImportedProduct;
-                import.ImporterClient = instance.ImporterClient;
                 import.PriceByUnit = instance.PriceByUnit;
 
                 if (!import.IsImportValid()) return false;

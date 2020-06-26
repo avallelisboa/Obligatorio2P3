@@ -18,7 +18,7 @@ namespace Obligatorio2.Services
     {
         [OperationContract]
         bool AddImport(string productId, long tin, int priceByUnit,
-            uint ammount, bool IsStored, DateTime entryDate, DateTime departureDate);
+            int ammount, bool IsStored, DateTime entryDate, DateTime departureDate);
         [OperationContract]
         bool TakeImport(int Id);
         [OperationContract]
@@ -37,8 +37,8 @@ namespace Obligatorio2.Services
     [DataContract]
     public class ClientDTO
     {
-        public ClientDTO(long tin, string clientName, uint discount,
-            uint seniority, DateTime registerDate)
+        public ClientDTO(long tin, string clientName, int discount,
+            int seniority, DateTime registerDate)
         {
             Tin = tin; ClientName = clientName; RegisterDate = registerDate;
         }
@@ -54,15 +54,14 @@ namespace Obligatorio2.Services
     [DataContract]
     public class ImportDTO
     {
-        public ImportDTO(int id, int priceByUnit, uint ammount, DateTime entryDate, DateTime departureDate, Product imported, Client importer, bool isStored)
+        public ImportDTO(int id, int priceByUnit, int ammount, DateTime entryDate, DateTime departureDate, string productId, bool isStored)
         {
             Id = id;
             PriceByUnit = priceByUnit;
             Ammount = ammount;
             EntryDate = entryDate;
             DepartureDate = departureDate;
-            Imported = imported;
-            Importer = importer;
+            ProductId = productId;
             IsStored = isStored;
         }
 
@@ -71,15 +70,15 @@ namespace Obligatorio2.Services
         [DataMember]
         public int PriceByUnit { get; set; }
         [DataMember]
-        public uint Ammount { get; set; }
+        public int Ammount { get; set; }
         [DataMember]
         public DateTime EntryDate { get; set; }
         [DataMember]
         public DateTime DepartureDate { get; set; }
         [DataMember]
-        public Product Imported { get; set; }
+        public string ProductId { get; set; }
         [DataMember]
-        public Client Importer { get; set; }
+        public long Tin { get; set; }
         [DataMember]
         public bool IsStored { get; set; }
     }

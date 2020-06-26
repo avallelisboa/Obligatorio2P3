@@ -15,20 +15,23 @@ namespace Obligatorio2.Models.BL
         public string Name { get; set; }
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long Tin { get; set; }
-        public uint Seniority { get; set; }
-        public uint Discount { get; set; }
+        [Required]
+        [Range(0,10000)]
+        public int Seniority { get; set; }
+        [Range(0,100)]
+        public int Discount { get; set; }
         [Required]
         public DateTime RegisterDate {get; set;}
-        public IEnumerable<Product> Products { get; set; }
-        public IEnumerable<Import> Imports { get; set; }
+        public List<Product> Products { get; set; }
+        public List<Import> Imports { get; set; }
 
         public Client(string name, long tin, DateTime registerDate)
         { Name = name; Tin = tin; RegisterDate = registerDate; }
 
-        public Client(string name, long tin, uint discount, DateTime registerDate)
+        public Client(string name, long tin, int discount, DateTime registerDate)
         { Name = name; Tin = tin; Discount = discount; RegisterDate = registerDate; }
 
-        public Client(string name, long tin, uint discount, uint seniority, DateTime registerDate)
+        public Client(string name, long tin, int discount, int seniority, DateTime registerDate)
         { Name = name; Tin = tin; Discount = discount; Seniority = seniority; RegisterDate = registerDate; }
 
         public Client(long tin) { Tin = tin;}

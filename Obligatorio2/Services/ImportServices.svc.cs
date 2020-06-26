@@ -14,13 +14,10 @@ namespace Obligatorio2.Services
     public class ImportServices : IImportServices
     {
         public bool AddImport(string productId, long tin, int priceByUnit,
-            uint ammount, bool IsStored, DateTime entryDate, DateTime departureDate)
+            int ammount, bool IsStored, DateTime entryDate, DateTime departureDate)
         {
-            Product product = new Product(productId);
-            Client client = new Client(tin);
-
             IRepository<Import> repository = new ImportRepository();
-            Import import = new Import(product, client, ammount, priceByUnit, entryDate, departureDate, IsStored);
+            Import import = new Import(productId, ammount, priceByUnit, entryDate, departureDate, IsStored);
 
             if (repository.Add(import)) return true;
             else return false;
@@ -28,13 +25,15 @@ namespace Obligatorio2.Services
 
         public IEnumerable<ImportDTO> FindImportByClientTin(long tin)
         {
-            IRepository<Import> repository = new ImportRepository();
-            var imports = repository.FindAll().Where(i => i.ImporterClient.Tin == tin);
+            ImportRepository importRepository = new ImportRepository();
+
+            var imports = importRepository.FindByClientId(tin);
+
             List<ImportDTO> importDTOs = new List<ImportDTO>();
 
             foreach(var i in imports)
             {
-                importDTOs.Add(new ImportDTO(i.Id, i.PriceByUnit, i.Ammount, i.EntryDate, i.DepartureDate, i.ImportedProduct, i.ImporterClient, i.IsStored));
+                importDTOs.Add(new ImportDTO(i.Id, i.PriceByUnit, i.Ammount, i.EntryDate, i.DepartureDate, i.ProductId, i.IsStored));
             }
 
             return importDTOs;
@@ -43,12 +42,12 @@ namespace Obligatorio2.Services
         public IEnumerable<ImportDTO> FindImportsById(string productId)
         {
             IRepository<Import> repository = new ImportRepository();
-            var imports = repository.FindAll().Where(i => i.ImportedProduct.Id == productId);
+            var imports = repository.FindAll().Where(i => i.ProductId == productId);
             List<ImportDTO> importDTOs = new List<ImportDTO>();
 
             foreach (var i in imports)
             {
-                importDTOs.Add(new ImportDTO(i.Id, i.PriceByUnit, i.Ammount, i.EntryDate, i.DepartureDate, i.ImportedProduct, i.ImporterClient, i.IsStored));
+                importDTOs.Add(new ImportDTO(i.Id, i.PriceByUnit, i.Ammount, i.EntryDate, i.DepartureDate, i.ProductId, i.IsStored));
             }
 
             return importDTOs;
@@ -62,7 +61,7 @@ namespace Obligatorio2.Services
 
             foreach (var i in imports)
             {
-                importDTOs.Add(new ImportDTO(i.Id, i.PriceByUnit, i.Ammount, i.EntryDate, i.DepartureDate, i.ImportedProduct, i.ImporterClient, i.IsStored));
+                importDTOs.Add(new ImportDTO(i.Id, i.PriceByUnit, i.Ammount, i.EntryDate, i.DepartureDate, i.ProductId, i.IsStored));
             }
 
             return importDTOs;
@@ -76,7 +75,7 @@ namespace Obligatorio2.Services
 
             foreach (var i in imports)
             {
-                importDTOs.Add(new ImportDTO(i.Id, i.PriceByUnit, i.Ammount, i.EntryDate, i.DepartureDate, i.ImportedProduct, i.ImporterClient, i.IsStored));
+                importDTOs.Add(new ImportDTO(i.Id, i.PriceByUnit, i.Ammount, i.EntryDate, i.DepartureDate, i.ProductId, i.IsStored));
             }
 
             return importDTOs;
@@ -90,7 +89,7 @@ namespace Obligatorio2.Services
 
             foreach(var i in imports)
             {
-                importsDTO.Add(new ImportDTO(i.Id,i.PriceByUnit,i.Ammount,i.EntryDate,i.DepartureDate,i.ImportedProduct,i.ImporterClient,i.IsStored));
+                importsDTO.Add(new ImportDTO(i.Id,i.PriceByUnit,i.Ammount,i.EntryDate,i.DepartureDate,i.ProductId,i.IsStored));
             }
 
             return importsDTO;

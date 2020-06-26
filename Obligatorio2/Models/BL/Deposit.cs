@@ -8,5 +8,6 @@ namespace Obligatorio2.Models.BL
     public class Deposit : User
     {
        public Deposit(int id, string password) : base(id, password, "deposito"){  }
+       public Deposit() { }
     }
 }

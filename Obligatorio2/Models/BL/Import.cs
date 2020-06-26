@@ -10,24 +10,22 @@ namespace Obligatorio2.Models.BL
     [Table("Imports")]
     public class Import
     {
-        public Import(Product importedProduct, Client importingClient, uint ammount,
+        public Import() { }
+        public Import(string productId, int ammount,
                         int priceByUnit, DateTime entryDate, DateTime departureDate, bool isStored)
         {
-            ImportedProduct = importedProduct;
-            ImporterClient = importingClient;
+            ProductId = productId;
             Ammount = ammount;
             PriceByUnit = priceByUnit;
             EntryDate = entryDate;
             DepartureDate = departureDate;
             IsStored = isStored;
         }
-
-        public Import(int id,Product importedProduct, Client importingClient, uint ammount,
+        public Import(int id,string productId, int ammount,
                         int priceByUnit, DateTime entryDate, DateTime departureDate, bool isStored)
         {
             Id = id;
-            ImportedProduct = importedProduct;
-            ImporterClient = importingClient;
+            ProductId = productId;
             Ammount = ammount;
             PriceByUnit = priceByUnit;
             EntryDate = entryDate;
@@ -46,13 +44,8 @@ namespace Obligatorio2.Models.BL
         public int Id { get; set; }
         public Product ImportedProduct { get; set; }
         [ForeignKey("ImportedProduct")]
-        public string ProductId { get; set; } 
-        public Client ImporterClient { get; set; }
-        [ForeignKey("ImporterClient")]
-        public long Tin { get; set; }
-        [Required]
-        public uint Ammount { get; set; }
-        [Required]
+        public string ProductId { get; set; }
+        public int Ammount { get; set; }
         public int PriceByUnit { get; set; }
         [Required]
         public DateTime EntryDate { get; set; }

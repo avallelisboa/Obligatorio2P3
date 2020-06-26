@@ -10,6 +10,7 @@
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            ContextKey = "Obligatorio2.Models.BL.OBL2P3PortLogContext";
         }
 
         protected override void Seed(Obligatorio2.Models.BL.OBL2P3PortLogContext context)

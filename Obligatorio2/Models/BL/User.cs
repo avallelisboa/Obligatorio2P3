@@ -10,7 +10,7 @@ namespace Obligatorio2.Models.BL
     [Table("Users")]
     public abstract class User
     {
-        [Key]
+        [Key, Required]
         public int Id { get; private set; }
         [StringLength(10)]
         public string Role { get; private set; }
@@ -18,6 +18,7 @@ namespace Obligatorio2.Models.BL
         public string Password { get; private set; }
 
         protected User(int id, string password, string role) {Id = id; Password = password; Role = role;}
+        protected User() { }
 
         private Tuple<bool,string> isPasswordValid()
         {

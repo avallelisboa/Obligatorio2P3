@@ -33,7 +33,7 @@ namespace Obligatorio2.Services
             var client = clientRepository.FindById(tin);
             var imports = importsRepository.FindByClientId(tin);
 
-            uint discount = client.Discount;
+            int discount = client.Discount;
 
             int expectedIncome = 0;
             
