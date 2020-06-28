@@ -17,6 +17,8 @@ namespace Obligatorio2.Models.Repositories
 
         public bool Add(Import instance)
         {
+            if (!instance.IsImportValid()) return false;
+
             try
             {
                 db.Imports.Add(instance);

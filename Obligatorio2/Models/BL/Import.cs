@@ -36,6 +36,7 @@ namespace Obligatorio2.Models.BL
         public bool IsImportValid()
         {
             if (DateTime.Compare(EntryDate, DepartureDate) >= 0) return false;
+            if (Ammount < 0) return false;
 
             return true;
         }

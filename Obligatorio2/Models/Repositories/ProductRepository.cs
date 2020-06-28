@@ -13,14 +13,14 @@ namespace Obligatorio2.Models.Repositories
 {
     public class ProductRepository : IRepository<Product>
     {
-        private OBL2P3PortLogContext _dbContext = new OBL2P3PortLogContext();
+        private OBL2P3PortLogContext db = new OBL2P3PortLogContext();
 
         public bool Add(Product instance)
         {
             try
             {
-                _dbContext.Products.Add(instance);
-                _dbContext.SaveChanges();
+                db.Products.Add(instance);
+                db.SaveChanges();
 
                 return true;
             }
@@ -35,14 +35,10 @@ namespace Obligatorio2.Models.Repositories
         {
             try
             {
-                List<Product> products = _dbContext.Products.ToList();
-                List<Import> imports = _dbContext.Imports.ToList();
+                List<Product> products = db.Products.ToList();
 
                 products.ForEach(p => {
-                    foreach(var i in imports)
-                    {
-                        if (p.ProductId == i.ProductId && i.IsStored) p.Ammount += i.Ammount;
-                    }
+                    p.Ammount = db.Imports.Where(i => i.ProductId == p.ProductId && i.IsStored).Sum(i => i.Ammount);
                 });
        
                 return products;
@@ -57,8 +53,8 @@ namespace Obligatorio2.Models.Repositories
         {
             try
             {
-                Product product = _dbContext.Products.Find(id);
-                product.Ammount = Convert.ToInt32(_dbContext.Imports.Where(i => i.ProductId == product.ProductId).Sum(i => i.Ammount));
+                Product product = db.Products.Find(id);
+                product.Ammount = Convert.ToInt32(db.Imports.Where(i => i.ProductId == product.ProductId).Sum(i => i.Ammount));
                 return product;
             }
             catch (Exception err)
@@ -71,10 +67,10 @@ namespace Obligatorio2.Models.Repositories
         {
             try
             {
-                Product product = _dbContext.Products.Find(id);
-                _dbContext.Products.Remove(product);
+                Product product = db.Products.Find(id);
+                db.Products.Remove(product);
 
-                _dbContext.SaveChanges();
+                db.SaveChanges();
 
                 return true;
             }
@@ -90,13 +86,13 @@ namespace Obligatorio2.Models.Repositories
 
             try
             {
-                var product = _dbContext.Products.Find(instance.ProductId);
+                var product = db.Products.Find(instance.ProductId);
 
                 product.Importer = instance.Importer;
                 product.Weight = instance.Weight;
                 product.Name = instance.Name;
 
-                _dbContext.SaveChanges();
+                db.SaveChanges();
 
                 return true;
             }

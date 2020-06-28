@@ -13,7 +13,7 @@ namespace Obligatorio2.Models.Repositories
 {
     public class UserRepository : IRepository<User>
     {
-        private OBL2P3PortLogContext _dbContext = new OBL2P3PortLogContext();
+        private OBL2P3PortLogContext db = new OBL2P3PortLogContext();
 
         public bool Add(User instance)
         {
@@ -24,8 +24,8 @@ namespace Obligatorio2.Models.Repositories
             {
                 try
                 {
-                    _dbContext.Users.Add(instance);
-                    _dbContext.SaveChanges();
+                    db.Users.Add(instance);
+                    db.SaveChanges();
 
                     return true;
                 }
@@ -40,7 +40,7 @@ namespace Obligatorio2.Models.Repositories
         {
             try
             {
-                List<User> users = _dbContext.Users.ToList();
+                List<User> users = db.Users.ToList();
                 return users;
             }
             catch(Exception err)
@@ -53,7 +53,7 @@ namespace Obligatorio2.Models.Repositories
         {
             try
             {
-                User user = _dbContext.Users.Find(id);
+                User user = db.Users.Find(id);
                 return user;
             }
             catch (Exception err)
@@ -66,11 +66,11 @@ namespace Obligatorio2.Models.Repositories
         {
             try
             {
-                var user = _dbContext.Users.Find(id);
+                var user = db.Users.Find(id);
                 if (user == null) return false;
 
-                _dbContext.Users.Remove(user);
-                _dbContext.SaveChanges();
+                db.Users.Remove(user);
+                db.SaveChanges();
 
                 return true;
             }
@@ -86,12 +86,12 @@ namespace Obligatorio2.Models.Repositories
 
             try
             {
-                var user = _dbContext.Users.Find(instance.Id);
+                var user = db.Users.Find(instance.Id);
                 var result = user.SetPassword(instance.Password);
 
                 if (!result.Item1) return false;
 
-                _dbContext.SaveChanges();
+                db.SaveChanges();
 
                 return true;
             }
