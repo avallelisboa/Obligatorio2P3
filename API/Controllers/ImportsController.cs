@@ -9,9 +9,11 @@ using Obligatorio2.Services;
 
 namespace API.Controllers
 {
+    [RoutePrefix("imports")]
     public class ImportsController : ApiController
     {
         // GET: api/Imports
+        [Route("getImports")]
         [HttpGet]
         public IHttpActionResult GetImports()
         {
@@ -22,7 +24,7 @@ namespace API.Controllers
 
             return Ok(json);
         }
-
+        [Route("getImportsByProductId")]
         [HttpGet]
         public IHttpActionResult GetImportsByProductId(string productId)
         {
@@ -33,7 +35,7 @@ namespace API.Controllers
 
             return Ok(json);
         }
-
+        [Route("getImportsByProductName")]
         [HttpGet]
         public IHttpActionResult GetImportsByName(string productName)
         {
@@ -44,7 +46,7 @@ namespace API.Controllers
 
             return Ok(json);
         }
-
+        [Route("getImportsByDate")]
         [HttpGet]
         public IHttpActionResult GetImportsByDate()
         {
