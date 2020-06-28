@@ -40,7 +40,7 @@ namespace Obligatorio2.Models.Repositories
         {
             try
             {
-                var users = _dbContext.Users.ToList();
+                List<User> users = _dbContext.Users.ToList();
                 return users;
             }
             catch(Exception err)

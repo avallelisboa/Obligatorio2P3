@@ -34,7 +34,7 @@ namespace Obligatorio2.Models.Repositories
         {
             try
             {
-                var imports = db.Imports.ToList();
+                List<Import> imports = db.Imports.ToList();
                 return imports;
             }
             catch (Exception err)

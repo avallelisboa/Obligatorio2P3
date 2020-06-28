@@ -36,12 +36,12 @@ namespace Obligatorio2.Models.Repositories
         {
             try
             {
-                var clients = db.Clients.ToList();
+                List<Client>clients = db.Clients.ToList();
                 return clients;
             }
             catch (Exception err)
             {
-                return null;
+                throw err;
             }
         }
 

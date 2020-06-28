@@ -50,10 +50,14 @@ namespace Obligatorio2.Models.BL
             var productsList = productRepository.FindAll();
             var usersList = userRepository.FindAll();
 
-            return makeClienstFile(clientsList) &&  
-                makeImportsFile(importsList) && 
-                makeProductsFile(productsList) &&
-                makeUsersFile(usersList);
+            bool cfresult = makeClientsFile(clientsList);
+            bool ifresult = makeImportsFile(importsList);
+            bool pfresult = makeProductsFile(productsList);
+            bool ufresult = makeUsersFile(usersList);
+
+            bool result = cfresult && ifresult && pfresult && ufresult;
+
+            return result;
         }
 
         private static bool makeClientsTable()
@@ -256,11 +260,11 @@ namespace Obligatorio2.Models.BL
             }
             catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
-        private static bool makeClienstFile(IEnumerable<Client> clients)
+        private static bool makeClientsFile(IEnumerable<Client> clients)
         {
             string folder = "Carga";
             string fileName = "Clients.txt";
@@ -282,7 +286,7 @@ namespace Obligatorio2.Models.BL
             }
             catch(Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
         private static bool makeImportsFile(IEnumerable<Import> imports)
@@ -298,7 +302,7 @@ namespace Obligatorio2.Models.BL
 
                 foreach (var i in imports)
                 {
-                    file.WriteLine($"{i.ImportedProduct.ProductId}#{i.Ammount}#{i.PriceByUnit}#{i.EntryDate}#{i.DepartureDate}#{i.IsStored}#");
+                    file.WriteLine($"{i.ProductId}#{i.Ammount}#{i.PriceByUnit}#{i.EntryDate}#{i.DepartureDate}#{i.IsStored}#");
                 }
 
                 file.Close();
@@ -307,7 +311,7 @@ namespace Obligatorio2.Models.BL
             }
             catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
         private static bool makeProductsFile(IEnumerable<Product> products)
@@ -323,7 +327,7 @@ namespace Obligatorio2.Models.BL
 
                 foreach (var p in products)
                 {
-                    file.WriteLine($"{p.ProductId}#{p.Name}#{p.Weight}#{p.Importer.Tin}#");
+                    file.WriteLine($"{p.ProductId}#{p.Name}#{p.Weight}#{p.ClientTin}#");
                 }
 
                 file.Close();
@@ -332,7 +336,7 @@ namespace Obligatorio2.Models.BL
             }
             catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
         private static bool makeUsersFile(IEnumerable<User> users)
@@ -357,7 +361,7 @@ namespace Obligatorio2.Models.BL
             }
             catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
     }

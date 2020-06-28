@@ -36,6 +36,8 @@ namespace Obligatorio2.Models.BL
 
         public Client(long tin) { Tin = tin;}
 
+        public Client() { }
+
         public bool isTinValid()
         {
             int digitsNumber = Utilities.digitsNumber(Tin);

@@ -35,13 +35,15 @@ namespace Obligatorio2.Models.Repositories
         {
             try
             {
-                var products = _dbContext.Products.ToList();
+                List<Product> products = _dbContext.Products.ToList();
+                List<Import> imports = _dbContext.Imports.ToList();
 
                 products.ForEach(p => {
-                    p.Ammount = Convert.ToInt32(_dbContext.Imports.Where(i=>p.ProductId == i.ProductId).Sum(i=>i.Ammount));
+                    foreach(var i in imports)
+                    {
+                        if (p.ProductId == i.ProductId && i.IsStored) p.Ammount += i.Ammount;
+                    }
                 });
-
-                _dbContext.SaveChanges();
        
                 return products;
             }
