@@ -18,13 +18,13 @@
                 </button>
                 <aside class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="Index">Productos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="Clients">Clients</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href="GetImports">Imports</a>
                         </li>
                     </ul>
@@ -36,23 +36,47 @@
         </section>
     </header>
     <main class="container">
-        <section id="productsListSection">
+        <section id="clientsListSection">
             <table class="table">
                 <tr>
-                    <th>Código</th>
-                    <th>Nombre</th>
-                    <th>Unidades</th>
+                    <th>Id de Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio unitario</th>
+                    <th>Está almacenado</th>
                 </tr>
-                @foreach (var p in ViewBag.productsList)
-                {
-                    <tr>
-                        <td>@p.Id</td>
-                        <td>@p.Name</td>
-                        <td>@p.Ammount</td>
-                    </tr>
+                @if (ViewBag.imports != null) {
+                    foreach (var i in ViewBag.imports)
+                    {
+                        <tr>
+                            <td>@i.ProductId</td>
+                            <td>@i.Ammount</td>
+                            <td>@i.PriceByUnit</td>
+                            <td>@i.ClientTin</td>
+                            <td>@i.IsStored</td>
+                        </tr>
+                    }
                 }
             </table>
         </section>
+        <section>
+            <h2>Obtener previsión de ganancia</h2>
+            <form method="post" action="GetExpectedIncome">
+
+                <label for="tin">Rut del cliente</label><input type="number" id="tin" name="tin" required />
+
+                <input type="submit" value="Obtener" />
+            </form>
+            @if (Session["expectedIncome"] != null)
+            {
+                <article class="bg-info">
+                    <p>La previsión de ganancia para el cliente ingresado es de: @Convert.ToInt32(Session["expectedIncome"])</p>
+                </article>
+            }
+        </section>
     </main>
+    <footer>
+        <p></p>
+    </footer>
 </body>
 </html>
+

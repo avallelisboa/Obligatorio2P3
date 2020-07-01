@@ -54,11 +54,12 @@ namespace Obligatorio2.Services
     [DataContract]
     public class ImportDTO
     {
-        public ImportDTO(int id, int priceByUnit, int ammount, DateTime entryDate, DateTime departureDate, string productId, bool isStored)
+        public ImportDTO(int id, int priceByUnit, int ammount, long tin, DateTime entryDate, DateTime departureDate, string productId, bool isStored)
         {
             Id = id;
             PriceByUnit = priceByUnit;
             Ammount = ammount;
+            Tin = tin;
             EntryDate = entryDate;
             DepartureDate = departureDate;
             ProductId = productId;

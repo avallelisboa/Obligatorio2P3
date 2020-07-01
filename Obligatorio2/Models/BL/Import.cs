@@ -48,6 +48,8 @@ namespace Obligatorio2.Models.BL
         public string ProductId { get; set; }
         public int Ammount { get; set; }
         public int PriceByUnit { get; set; }
+        [NotMapped]
+        public long ClientTin { get; set; }
         [Required]
         public DateTime EntryDate { get; set; }
         [Required]

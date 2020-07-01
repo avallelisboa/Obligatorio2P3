@@ -38,7 +38,8 @@ namespace Obligatorio2.Models.Repositories
                 List<Product> products = db.Products.ToList();
 
                 products.ForEach(p => {
-                    p.Ammount = db.Imports.Where(i => i.ProductId == p.ProductId && i.IsStored).Sum(i => i.Ammount);
+                    List <Import> _imports = db.Imports.Where(i => i.ProductId == p.ProductId && i.IsStored).ToList();
+                    if(_imports != null) p.Ammount = _imports.Sum(i => i.Ammount);
                 });
        
                 return products;
@@ -54,12 +55,14 @@ namespace Obligatorio2.Models.Repositories
             try
             {
                 Product product = db.Products.Find(id);
-                product.Ammount = Convert.ToInt32(db.Imports.Where(i => i.ProductId == product.ProductId).Sum(i => i.Ammount));
+                List<Import> _imports = db.Imports.Where(i => i.ProductId == product.ProductId).ToList();
+                if (_imports != null) product.Ammount = _imports.Sum(i => i.Ammount);
+                else product.Ammount = 0;
                 return product;
             }
             catch (Exception err)
             {
-                return null;
+                throw err;
             }
         }
 
@@ -76,7 +79,7 @@ namespace Obligatorio2.Models.Repositories
             }
             catch (Exception err)
             {
-                return false;
+                throw err;
             }
         }
 
@@ -98,7 +101,7 @@ namespace Obligatorio2.Models.Repositories
             }
             catch (Exception err)
             {
-                return false;
+                throw err;
             }
         }
     }

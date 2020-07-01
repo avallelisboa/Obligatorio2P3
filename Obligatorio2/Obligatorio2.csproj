@@ -169,6 +169,10 @@
     <Compile Include="Migrations\202006260044398_create-tables.designer.cs">
       <DependentUpon>202006260044398_create-tables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007011815357_changes-in-imports.cs" />
+    <Compile Include="Migrations\202007011815357_changes-in-imports.designer.cs">
+      <DependentUpon>202007011815357_changes-in-imports.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BL\Admin.cs" />
     <Compile Include="Models\BL\Client.cs" />
@@ -369,6 +373,10 @@
     <Content Include="Scripts\umd\popper.js.flow" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper.min.js.map" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Admin\Imports.cshtml" />
+    <Content Include="Views\Deposit\Imports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -394,6 +402,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006260044398_create-tables.resx">
       <DependentUpon>202006260044398_create-tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007011815357_changes-in-imports.resx">
+      <DependentUpon>202007011815357_changes-in-imports.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

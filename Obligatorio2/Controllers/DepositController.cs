@@ -1,14 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
+using Obligatorio2.Models.BL;
 using Obligatorio2.Services;
 
 namespace Obligatorio2.Controllers
 {
     public class DepositController : Controller
     {
+        HttpClient client = new HttpClient();
+        HttpResponseMessage response = new HttpResponseMessage();
+        Uri uri = null;
+
+        public DepositController()
+        {
+            client.BaseAddress = new Uri("http://localhost:56488/");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("Application/json"));
+        }
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -46,6 +60,27 @@ namespace Obligatorio2.Controllers
                 ViewBag.ImportAdded = false;
             }
             return Redirect("Clients");
+        }
+
+        [HttpGet]
+        public ActionResult GetImports()
+        {
+            if (Convert.ToString(Session["Role"]) == "deposito")
+            {
+                uri = new Uri("http://localhost:56488/Imports/GetImports");
+
+                response = client.GetAsync(uri).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    List<Import> imports = response.Content.ReadAsAsync<List<Import>>().Result;
+                    return View("Imports", imports);
+                }
+                else
+                {
+                    return View("Imports", null);
+                }
+            }
+            else return Redirect("../Home/Index");
         }
 
         [HttpGet]

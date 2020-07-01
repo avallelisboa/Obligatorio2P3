@@ -59,7 +59,7 @@ namespace Obligatorio2.Models.Repositories
             }
             catch (Exception err)
             {
-                return null;
+                throw err;
             }
         }
 
@@ -73,7 +73,7 @@ namespace Obligatorio2.Models.Repositories
             }
             catch (Exception err)
             {
-                return null;
+                throw err;
             }
         }
 
@@ -89,7 +89,7 @@ namespace Obligatorio2.Models.Repositories
             }
             catch (Exception err)
             {
-                return false;
+                throw err;
             }
         }
 
@@ -116,7 +116,7 @@ namespace Obligatorio2.Models.Repositories
             }
             catch (Exception err)
             {
-                return false;
+                throw err;
             }
         }
     }
