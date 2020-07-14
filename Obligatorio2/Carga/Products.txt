@@ -8,3 +8,4 @@ Prod6#producto6#70#123456789124#
 Prod7#producto7#90#123456789125#
 Prod8#producto8#30#123456789126#
 Prod9#producto9#20#123456789127#
+Prod10#productoDefensa#20#123456789127#

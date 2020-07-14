@@ -4,11 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Script.Serialization;
+using System.Web.Http.Cors;
 using Obligatorio2.Services;
 
 namespace API.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("imports")]
     public class ImportsController : ApiController
     {
@@ -19,32 +20,23 @@ namespace API.Controllers
         {
             ImportServices proxy = new ImportServices();
             var imports = proxy.GetImports();
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var json = serializer.Serialize(imports);
-
-            return Ok(json);
+            return Ok(imports);
         }
-        [Route("getImportsByProductId")]
+        [Route("getImportsByProductId/{productId}")]
         [HttpGet]
         public IHttpActionResult GetImportsByProductId(string productId)
         {
             ImportServices proxy = new ImportServices();
             var imports = proxy.FindImportsById(productId);
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var json = serializer.Serialize(imports);
-
-            return Ok(json);
+            return Ok(imports);
         }
-        [Route("getImportsByProductName")]
+        [Route("getImportsByProductName/{productName}")]
         [HttpGet]
         public IHttpActionResult GetImportsByName(string productName)
         {
             ImportServices proxy = new ImportServices();
             var imports = proxy.FindImportsByName(productName);
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var json = serializer.Serialize(imports);
-
-            return Ok(json);
+            return Ok(imports);
         }
         [Route("getImportsByDate")]
         [HttpGet]
@@ -52,10 +44,7 @@ namespace API.Controllers
         {
             ImportServices proxy = new ImportServices();
             var imports = proxy.FindImportByDate();
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var json = serializer.Serialize(imports);
-
-            return Ok(json);
+            return Ok(imports);
         }
 
         [HttpPost]

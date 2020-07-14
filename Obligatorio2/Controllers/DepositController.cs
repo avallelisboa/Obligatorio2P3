@@ -67,18 +67,7 @@ namespace Obligatorio2.Controllers
         {
             if (Convert.ToString(Session["Role"]) == "deposito")
             {
-                uri = new Uri("http://localhost:56488/Imports/GetImports");
-
-                response = client.GetAsync(uri).Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    List<Import> imports = response.Content.ReadAsAsync<List<Import>>().Result;
-                    return View("Imports", imports);
-                }
-                else
-                {
-                    return View("Imports", null);
-                }
+                    return View("Imports");
             }
             else return Redirect("../Home/Index");
         }

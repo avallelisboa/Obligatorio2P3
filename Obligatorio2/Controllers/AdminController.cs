@@ -7,22 +7,12 @@ using System.Web;
 using System.Web.Mvc;
 using Obligatorio2.Services;
 using Obligatorio2.Models.BL;
+using Newtonsoft.Json;
 
 namespace Obligatorio2.Controllers
 {
     public class AdminController : Controller
     {
-        HttpClient client = new HttpClient();  
-        HttpResponseMessage response = new HttpResponseMessage();
-        Uri uri = null;
-
-        public AdminController()
-        {
-            client.BaseAddress = new Uri("http://localhost:56488/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("Application/json"));
-        }
-
         public ActionResult Index()
         {
             if (Convert.ToString(Session["Role"]) == "admin")
@@ -66,19 +56,7 @@ namespace Obligatorio2.Controllers
         {
             if (Convert.ToString(Session["Role"]) == "admin")
             {
-                uri = new Uri("http://localhost:56488/Imports/GetImports");
-
-                response = client.GetAsync(uri).Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    var imports = response.Content.ReadAsAsync<List<Import>>().Result;
-                    ViewBag.imports = imports;
-                    return View("Imports", imports);
-                }
-                else
-                {
-                    return View("Imports", null);
-                }
+                return View("Imports");
             }
             else return Redirect("../Home/Index");
         }

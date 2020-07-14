@@ -8,6 +8,44 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        $(document).ready(() => {
+            var list;
+            var table = $("#importsList");
+            $.get("http://localhost:56488/imports/getImports", (data) => {
+                
+                table.html('');
+                table.append(` <tr>
+                                 <th>Id de Producto</th>
+                                 <th>Cantidad</th>
+                                 <th>Precio unitario</th>
+                                 <th>Rut del cliente</th>
+                                 <th>Está almacenado</th>
+                               </tr>
+                            `)
+                data.forEach((i) => {
+                    table.append(`
+                                    <tr>
+                                    <td>
+                                    ${i.ProductId}
+                                    </td>
+                                    <td>
+                                    ${i.Ammount}
+                                    </td>
+                                    <td>
+                                    ${i.PriceByUnit}
+                                    </td>
+                                    <td>
+                                    ${i.Tin}
+                                    </td>
+                                    <td>
+                                    ${i.IsStored}
+                                    </td>
+                                </tr>`);
+                });                
+            },"json");
+        });
+    </script>
 </head>
 <body>
     <header class="container-fluid bg-dark">
@@ -36,42 +74,15 @@
         </section>
     </header>
     <main class="container">
-        <section id="clientsListSection">
-            <table class="table">
+        <section id="importsListSection">
+            <table class="table" id="importsList">
                 <tr>
                     <th>Id de Producto</th>
                     <th>Cantidad</th>
                     <th>Precio unitario</th>
                     <th>Está almacenado</th>
                 </tr>
-                @if (ViewBag.imports != null) {
-                    foreach (var i in ViewBag.imports)
-                    {
-                        <tr>
-                            <td>@i.ProductId</td>
-                            <td>@i.Ammount</td>
-                            <td>@i.PriceByUnit</td>
-                            <td>@i.ClientTin</td>
-                            <td>@i.IsStored</td>
-                        </tr>
-                    }
-                }
             </table>
-        </section>
-        <section>
-            <h2>Obtener previsión de ganancia</h2>
-            <form method="post" action="GetExpectedIncome">
-
-                <label for="tin">Rut del cliente</label><input type="number" id="tin" name="tin" required />
-
-                <input type="submit" value="Obtener" />
-            </form>
-            @if (Session["expectedIncome"] != null)
-            {
-                <article class="bg-info">
-                    <p>La previsión de ganancia para el cliente ingresado es de: @Convert.ToInt32(Session["expectedIncome"])</p>
-                </article>
-            }
         </section>
     </main>
     <footer>
