@@ -65,10 +65,7 @@ namespace Obligatorio2.Controllers
         [HttpGet]
         public ActionResult GetImports()
         {
-            if (Convert.ToString(Session["Role"]) == "deposito")
-            {
-                    return View("Imports");
-            }
+            if (Convert.ToString(Session["Role"]) == "deposito") return View("Imports");
             else return Redirect("../Home/Index");
         }
 
